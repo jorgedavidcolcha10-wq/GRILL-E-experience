@@ -1,489 +1,156 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GRILL'E - Parrilla & Asados</title>
-  <style>
-    :root {
-      --primary: #f1c40f; /* Amarillo */
-      --primary-dark: #d4ac0d;
-      --dark: #121212;
-      --card-bg: #1e1e1e;
-      --text-color: #ffffff;
-      --gray: #888888;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    <title>GRILL'E | Parrilla & Cortes</title>
 
-    body {
-      background-color: var(--dark);
-      color: var(--text-color);
-      padding-bottom: 80px;
-    }
-
-    /* Header */
-    header {
-      background-color: #000000;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 2px solid var(--primary);
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--primary);
-      letter-spacing: 2px;
-    }
-
-    .cart-btn {
-      background: var(--primary);
-      color: #000;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .cart-count {
-      background: #000;
-      color: var(--primary);
-      border-radius: 50%;
-      padding: 2px 7px;
-      font-size: 0.8rem;
-    }
-
-    /* Hero */
-    .hero {
-      background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80');
-      background-size: cover;
-      background-position: center;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: 2rem;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      color: #ccc;
-      font-size: 0.95rem;
-    }
-
-    /* Categorías */
-    .categories {
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-      padding: 15px 20px;
-      background-color: #0a0a0a;
-    }
-
-    .category-btn {
-      background: #222;
-      color: #fff;
-      border: 1px solid #333;
-      padding: 8px 16px;
-      border-radius: 15px;
-      white-space: nowrap;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    .category-btn.active {
-      background: var(--primary);
-      color: #000;
-      font-weight: bold;
-      border-color: var(--primary);
-    }
-
-    /* Grid Productos */
-    .container {
-      padding: 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid #2a2a2a;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .card-body {
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    .card-title {
-      font-size: 1.2rem;
-      margin-bottom: 5px;
-    }
-
-    .card-desc {
-      font-size: 0.85rem;
-      color: #aaa;
-      margin-bottom: 15px;
-      flex-grow: 1;
-    }
-
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 10px;
-    }
-
-    .price {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: var(--primary);
-    }
-
-    .options-group {
-      margin-bottom: 10px;
-    }
-
-    .options-group label {
-      display: block;
-      font-size: 0.8rem;
-      color: #ccc;
-      margin-bottom: 3px;
-    }
-
-    .options-group select {
-      width: 100%;
-      padding: 6px;
-      border-radius: 6px;
-      background: #2a2a2a;
-      color: #fff;
-      border: 1px solid #444;
-    }
-
-    .add-btn {
-      background: var(--primary);
-      color: #000;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .add-btn:hover {
-      background: var(--primary-dark);
-    }
-
-    /* Modal Carrito */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      z-index: 200;
-      justify-content: center;
-      align-items: flex-end;
-    }
-
-    .modal.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background: #1a1a1a;
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      padding: 20px;
-      overflow-y: auto;
-      border-top: 3px solid var(--primary);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #333;
-    }
-
-    .cart-item-info h4 {
-      font-size: 0.95rem;
-    }
-
-    .cart-item-info p {
-      font-size: 0.8rem;
-      color: var(--gray);
-    }
-
-    .cart-total {
-      margin-top: 15px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-      color: var(--primary);
-    }
-
-    .checkout-form {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .checkout-form input, .checkout-form select {
-      padding: 10px;
-      border-radius: 8px;
-      background: #2a2a2a;
-      border: 1px solid #444;
-      color: #fff;
-    }
-
-    .pay-btn {
-      background: var(--primary);
-      color: #000;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    @media(min-width: 600px) {
-      .modal { align-items: center; }
-      .modal-content { border-radius: 12px; }
-    }
-  </style>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
 
-  <header>
-<div class="logo">
-  <img src="logo.png" alt="GRILL'E Logo" style="height: 200px; width: auto; display: block;">
-</div>
-    <button class="cart-btn" onclick="toggleCart()">
-      🛒 Carrito <span class="cart-count" id="cart-count">0</span>
-    </button>
-  </header>
+<header class="header">
 
-  <section class="hero">
-    <h1>El Auténtico Sabor a la Parrilla</h1>
-    <p>Cortes seleccionados, asados al carbón. Realiza tu pedido en línea.</p>
-  </section>
-
-  <nav class="categories">
-    <button class="category-btn active" onclick="filterCategory('todos', this)">Todos</button>
-    <button class="category-btn" onclick="filterCategory('cortes', this)">Cortes Especiales</button>
-    <button class="category-btn" onclick="filterCategory('entradas', this)">Entradas</button>
-    <button class="category-btn" onclick="filterCategory('bebidas', this)">Bebidas</button>
-  </nav>
-
-  <main class="container">
-    <div class="menu-grid" id="menu-grid"></div>
-  </main>
-
-  <div class="modal" id="cart-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Tu Pedido</h2>
-        <button class="close-btn" onclick="toggleCart()">&times;</button>
-      </div>
-
-      <div id="cart-items">
-        <p style="text-align: center; color: var(--gray);">El carrito está vacío.</p>
-      </div>
-
-      <div class="cart-total">
-        <span>Total:</span>
-        <span id="cart-total-price">$0.00</span>
-      </div>
-
-      <form class="checkout-form" id="checkout-form" onsubmit="processPayment(event)">
-        <h3 style="margin-top:10px; font-size:1rem;">Datos de Envío y Pago</h3>
-        <input type="text" placeholder="Nombre Completo" required>
-        <input type="tel" placeholder="Teléfono" required>
-        <input type="text" placeholder="Dirección de Entrega" required>
-        
-        <h3 style="margin-top:5px; font-size:1rem;">Método de Pago</h3>
-        <select required>
-          <option value="card">Tarjeta de Crédito / Débito</option>
-          <option value="transfer">Transferencia Directa</option>
-        </select>
-        <input type="text" placeholder="Número de Tarjeta" maxlength="16" required>
-        
-        <button type="submit" class="pay-btn" id="pay-button">Pagar y Enviar Pedido</button>
-      </form>
+    <div class="logo">
+        GRILL<span>'</span>E
     </div>
-  </div>
 
-  <script>
-    const menuData = [
-      { id: 1, title: "Corte Tomahawk (800g)", desc: "Corte jugoso de res con hueso, asado a la parrilla con sal marina.", price: 28.50, category: "cortes", hasCookingTerm: true, img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80" },
-      { id: 2, title: "Corte T-Bone (500g)", desc: "La combinación perfecta entre lomo fino y bife de chorizo.", price: 22.00, category: "cortes", hasCookingTerm: true, img: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=500&q=80" },
-      { id: 3, title: "Costillas de Cerdo BBQ", desc: "Costillas tiernas bañadas en salsa BBQ ahumada de la casa.", price: 16.50, category: "cortes", hasCookingTerm: false, img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=500&q=80" },
-      { id: 4, title: "Provolone a la Parrilla", desc: "Queso provolone fundido al carbón con orégano y oliva.", price: 8.00, category: "entradas", hasCookingTerm: false, img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=500&q=80" },
-      { id: 5, title: "Cerveza Artesanal", desc: "Cerveza rubia o negra de la casa (500ml).", price: 4.50, category: "bebidas", hasCookingTerm: false, img: "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=500&q=80" }
-    ];
+    <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="menu.html">Menú</a>
+        <a href="carrito.html">
+            Mi pedido
+            <span id="cart-count">0</span>
+        </a>
+    </nav>
 
-    let cart = [];
+</header>
 
-    function renderMenu(items) {
-      const grid = document.getElementById('menu-grid');
-      grid.innerHTML = '';
-      items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <img src="${item.img}" alt="${item.title}">
-          <div class="card-body">
-            <h3 class="card-title">${item.title}</h3>
-            <p class="card-desc">${item.desc}</p>
-            ${item.hasCookingTerm ? `
-              <div class="options-group">
-                <label>Término de la carne:</label>
-                <select id="term-${item.id}">
-                  <option value="Medio (3/4)">Medio (3/4)</option>
-                  <option value="Jugoso / Sellado">Jugoso / Sellado</option>
-                  <option value="Bien Cocido">Bien Cocido</option>
-                </select>
-              </div>
-            ` : ''}
-            <div class="card-footer">
-              <span class="price">$${item.price.toFixed(2)}</span>
-              <button class="add-btn" onclick="addToCart(${item.id})">Agregar</button>
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
 
-    function filterCategory(cat, btn) {
-      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderMenu(cat === 'todos' ? menuData : menuData.filter(i => i.category === cat));
-    }
+<main>
 
-    function addToCart(productId) {
-      const product = menuData.find(p => p.id === productId);
-      let selectedTerm = product.hasCookingTerm ? (document.getElementById(`term-${productId}`)?.value || "") : "";
-      cart.push({ ...product, cookingTerm: selectedTerm });
-      updateCartUI();
-    }
+    <!-- HERO -->
 
-    function updateCartUI() {
-      document.getElementById('cart-count').innerText = cart.length;
-      const cartItemsContainer = document.getElementById('cart-items');
-      const totalPriceElement = document.getElementById('cart-total-price');
+    <section class="hero">
 
-      if (cart.length === 0) {
-        cartItemsContainer.innerHTML = `<p style="text-align: center; color: var(--gray);">El carrito está vacío.</p>`;
-        totalPriceElement.innerText = "$0.00";
-        return;
-      }
+        <div class="hero-content">
 
-      cartItemsContainer.innerHTML = '';
-      let total = 0;
-      cart.forEach((item, index) => {
-        total += item.price;
-        const div = document.createElement('div');
-        div.className = 'cart-item';
-        div.innerHTML = `
-          <div class="cart-item-info">
-            <h4>${item.title}</h4>
-            ${item.cookingTerm ? `<p>Término: ${item.cookingTerm}</p>` : ''}
-            <p>$${item.price.toFixed(2)}</p>
-          </div>
-          <button style="background:none; border:none; color:#e74c3c; cursor:pointer;" onclick="removeFromCart(${index})">Eliminar</button>
-        `;
-        cartItemsContainer.appendChild(div);
-      });
-      totalPriceElement.innerText = `$${total.toFixed(2)}`;
-    }
+            <p class="eyebrow">
+                PARRILLA ARTESANAL
+            </p>
 
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      updateCartUI();
-    }
+            <h1>
+                El sabor de la
+                <strong>parrilla.</strong>
+            </h1>
 
-    function toggleCart() {
-      document.getElementById('cart-modal').classList.toggle('active');
-    }
+            <p>
+                Cortes, pinchos y carnes preparados
+                al fuego para disfrutar en Riobamba.
+            </p>
 
-    function processPayment(event) {
-      event.preventDefault();
-      if (cart.length === 0) return alert("Tu carrito está vacío.");
-      const btn = document.getElementById('pay-button');
-      btn.innerText = "Procesando pago...";
-      btn.disabled = true;
-      setTimeout(() => {
-        alert("¡Pago aprobado! Pedido enviado a la cocina de GRILL'E.");
-        cart = [];
-        updateCartUI();
-        toggleCart();
-        btn.innerText = "Pagar y Enviar Pedido";
-        btn.disabled = false;
-      }, 1500);
-    }
+            <a href="menu.html" class="btn-primary">
+                Ver menú
+            </a>
 
-    renderMenu(menuData);
-  </script>
+        </div>
+
+    </section>
+
+
+    <!-- CATEGORÍAS -->
+
+    <section class="categories">
+
+        <div class="section-title">
+            <span>DESCUBRE</span>
+            <h2>Nuestro menú</h2>
+        </div>
+
+
+        <div class="category-grid">
+
+            <a href="menu.html?categoria=cortes" class="category-card">
+                <div class="category-image">
+                    <img src="assets/productos/cortes.jpg"
+                         alt="Cortes de carne">
+                </div>
+
+                <div class="category-info">
+                    <h3>Cortes</h3>
+                    <span>Ver productos →</span>
+                </div>
+            </a>
+
+
+            <a href="menu.html?categoria=pinchos" class="category-card">
+                <div class="category-image">
+                    <img src="assets/productos/pinchos.jpg"
+                         alt="Pinchos">
+                </div>
+
+                <div class="category-info">
+                    <h3>Pinchos</h3>
+                    <span>Ver productos →</span>
+                </div>
+            </a>
+
+
+            <a href="menu.html?categoria=costillas" class="category-card">
+                <div class="category-image">
+                    <img src="assets/productos/costillas.jpg"
+                         alt="Costillas">
+                </div>
+
+                <div class="category-info">
+                    <h3>Costillas</h3>
+                    <span>Ver productos →</span>
+                </div>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRODUCTOS DESTACADOS -->
+
+    <section class="featured">
+
+        <div class="section-title">
+            <span>GRILL'E</span>
+            <h2>Favoritos</h2>
+        </div>
+
+        <div id="featured-products" class="product-grid">
+            <!-- Los productos se cargarán mediante JavaScript -->
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="logo">
+        GRILL<span>'</span>E
+    </div>
+
+    <p>
+        Parrilla · Cortes · Experiencia
+    </p>
+
+    <p>
+        Riobamba, Ecuador
+    </p>
+
+</footer>
+
+
+<script src="js/app.js"></script>
+
 </body>
 </html>
